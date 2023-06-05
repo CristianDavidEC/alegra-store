@@ -1,3 +1,4 @@
+import 'package:alegra_store/src/ui/pages/producto/campos_producto_formulario.dart';
 import 'package:alegra_store/src/ui/pages/producto/producto_controller.dart';
 import 'package:flutter/material.dart';
 
@@ -79,7 +80,8 @@ class _ActualizarProductoPageState extends State<ActualizarProductoPage> {
                   children: [
                     Expanded(
                       flex: 4,
-                      child: _codigoProducto(),
+                      child: codigoProducto(
+                          productoRequest, codigoProductoController),
                     ),
                     SizedBox(width: Adapt.wp(2, context)),
                     Expanded(
@@ -96,21 +98,27 @@ class _ActualizarProductoPageState extends State<ActualizarProductoPage> {
                   ],
                 ),
                 SizedBox(height: Adapt.hp(3, context)),
-                _nombreProductoText(),
+                nombreProductoText(productoRequest),
                 SizedBox(height: Adapt.hp(3, context)),
-                _listaTipoArticulo(),
+                listaTipoArticulo(productoRequest, _listaTipoArticulos,
+                    (String? newValue) {
+                  setState(() {
+                    newValue;
+                  });
+                }),
                 SizedBox(height: Adapt.hp(3, context)),
-                _precioCompraArticulo(),
+                precioCompraArticulo(productoRequest),
                 SizedBox(height: Adapt.hp(3, context)),
-                _precioVentaProducto(),
+                precioVentaProducto(productoRequest),
                 SizedBox(height: Adapt.hp(3, context)),
-                _cantidadProductoNum(),
+                cantidadProductoNum(productoRequest),
                 SizedBox(height: Adapt.hp(3, context)),
-                _pesoProducto(),
+                pesoProducto(productoRequest),
                 SizedBox(height: Adapt.hp(3, context)),
-                _fechaExpiracionText(),
+                fechaExpiracionText(
+                    productoRequest, _actualizadoInputFechaIngreso, context),
                 SizedBox(height: Adapt.hp(3, context)),
-                _descripcionProducto(),
+                descripcionProducto(productoRequest),
                 SizedBox(height: Adapt.hp(3, context)),
                 _botonActualizarProducto(),
                 SizedBox(height: Adapt.hp(3, context)),
@@ -118,260 +126,6 @@ class _ActualizarProductoPageState extends State<ActualizarProductoPage> {
             ),
           ),
         ),
-      ),
-    );
-  }
-
-  Widget _nombreProductoText() {
-    return TextFormField(
-      initialValue: productoRequest.nombre,
-      keyboardType: TextInputType.text,
-      decoration: const InputDecoration(
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.blue),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.blue),
-        ),
-        prefixIcon: Icon(Icons.point_of_sale_outlined, color: Colors.blue),
-        counterText: "",
-        hintText: 'ingrese un nombre',
-        label: Text(
-          'Nombre del producto',
-          style: TextStyle(
-            color: Colors.black,
-          ),
-        ),
-        labelStyle: TextStyle(color: Colors.black),
-      ),
-      onSaved: (value) => productoRequest.nombre = value!,
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Ingrese un nombre';
-        }
-        return null;
-      },
-    );
-  }
-
-  Widget _codigoProducto() {
-    return TextFormField(
-      controller: codigoProductoController,
-      keyboardType: TextInputType.number,
-      decoration: const InputDecoration(
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.blue),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.blue),
-        ),
-        prefixIcon: Icon(Icons.qr_code, color: Colors.blue),
-        counterText: "",
-        hintText: 'ingrese un precio',
-        label: Text(
-          'Codigo del producto',
-          style: TextStyle(
-            color: Colors.black,
-          ),
-        ),
-        labelStyle: TextStyle(color: Colors.black),
-      ),
-      onSaved: (value) => productoRequest.codigo = value!,
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Ingrese un nombre';
-        }
-        return null;
-      },
-    );
-  }
-
-  Widget _precioVentaProducto() {
-    return TextFormField(
-      initialValue: productoRequest.precioVenta.toString(),
-      keyboardType: TextInputType.text,
-      decoration: const InputDecoration(
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.blue),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.blue),
-        ),
-        prefixIcon: Icon(Icons.monetization_on, color: Colors.blue),
-        counterText: "",
-        hintText: 'ingrese un precio',
-        label: Text(
-          'Precio de venta',
-          style: TextStyle(
-            color: Colors.black,
-          ),
-        ),
-        labelStyle: TextStyle(color: Colors.black),
-      ),
-      onSaved: (value) => productoRequest.precioVenta = int.parse(value!),
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Ingrese un nombre';
-        }
-        return null;
-      },
-    );
-  }
-
-  Widget _precioCompraArticulo() {
-    return TextFormField(
-      initialValue: productoRequest.precioCompra.toString(),
-      keyboardType: TextInputType.text,
-      decoration: const InputDecoration(
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.blue),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.blue),
-        ),
-        prefixIcon: Icon(Icons.monetization_on, color: Colors.blue),
-        counterText: "",
-        hintText: 'ingrese un precio',
-        label: Text(
-          'Precio de compra',
-          style: TextStyle(
-            color: Colors.black,
-          ),
-        ),
-        labelStyle: TextStyle(color: Colors.black),
-      ),
-      onSaved: (value) => productoRequest.precioCompra =
-          int.parse(value!), //_reporteFiltroRequest.nombre = value!,
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Ingrese un nombre';
-        }
-        return null;
-      },
-    );
-  }
-
-  Widget _cantidadProductoNum() {
-    return TextFormField(
-      initialValue: productoRequest.cantidad.toString(),
-      keyboardType: TextInputType.number,
-      decoration: const InputDecoration(
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.blue),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.blue),
-        ),
-        prefixIcon: Icon(Icons.production_quantity_limits, color: Colors.blue),
-        counterText: "",
-        hintText: 'ingrese una cantidad',
-        label: Text(
-          'Cantidad',
-          style: TextStyle(
-            color: Colors.black,
-          ),
-        ),
-        labelStyle: TextStyle(color: Colors.black),
-      ),
-      onSaved: (value) => productoRequest.cantidad =
-          int.parse(value!), //_reporteFiltroRequest.nombre = value!,
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Ingrese un nombre';
-        }
-        return null;
-      },
-    );
-  }
-
-  Widget _pesoProducto() {
-    return TextFormField(
-      initialValue: productoRequest.peso.toString(),
-      keyboardType: TextInputType.number,
-      decoration: const InputDecoration(
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.blue),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.blue),
-        ),
-        prefixIcon: Icon(Icons.production_quantity_limits, color: Colors.blue),
-        counterText: "",
-        hintText: 'ingrese el peso',
-        label: Text(
-          'Peso',
-          style: TextStyle(
-            color: Colors.black,
-          ),
-        ),
-        labelStyle: TextStyle(color: Colors.black),
-      ),
-      onSaved: (value) => productoRequest.peso = int.parse(value!),
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Ingrese un nombre';
-        }
-        return null;
-      },
-    );
-  }
-
-  Widget _listaTipoArticulo() {
-    return DropdownButtonFormField<String>(
-      value: productoRequest.idCategory.toString(),
-      hint: const Text('Seleccione una tipo',
-          style: TextStyle(
-            color: Colors.black,
-            fontFamily: 'CaviarDreamsRegular',
-          )),
-      onSaved: (value) => productoRequest.idCategory = int.parse(value!),
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Seleccione una tipo';
-        }
-        return null;
-      },
-      isExpanded: true,
-      icon: const Icon(Icons.arrow_downward),
-      elevation: 16,
-      style: const TextStyle(
-        color: Colors.black,
-      ),
-      items: _listaTipoArticulos.map((CategoriaProductoRequest value) {
-        return DropdownMenuItem<String>(
-          onTap: () {
-            productoRequest.categoria = value.name;
-          },
-          value: value.id,
-          child: Text(value.name,
-              style: const TextStyle(
-                color: Colors.black,
-                fontFamily: 'CaviarDreamsRegular',
-              )),
-        );
-      }).toList(),
-      onChanged: (String? newValue) {
-        setState(() {
-          newValue;
-        });
-      },
-      decoration: const InputDecoration(
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.blue),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.blue),
-        ),
-        prefixIcon: Icon(Icons.calendar_month_outlined),
-        counterText: "",
-        hintText: 'Seleccione un tipo de articulo',
-        label: Text(
-          'Tipo de articulo',
-          style: TextStyle(
-            color: Colors.black,
-          ),
-        ),
-        labelStyle: TextStyle(color: Colors.black),
       ),
     );
   }
@@ -412,94 +166,6 @@ class _ActualizarProductoPageState extends State<ActualizarProductoPage> {
           setState(() {});
         },
       ),
-    );
-  }
-
-  Widget _fechaExpiracionText() {
-    return TextFormField(
-      controller: _actualizadoInputFechaIngreso,
-      onSaved: (value) => productoRequest.fechaExpiracion = value!,
-      //validator: (value) => value!.isEmpty ? 'Ingrese la fecha' : null,
-      onTap: () async {
-        DateTime? newDateTime = await showDatePicker(
-            builder: (BuildContext context, Widget? child) {
-              return Theme(
-                data: ThemeData.light().copyWith(
-                  colorScheme: const ColorScheme.light(),
-                ),
-                child: child!,
-              );
-            },
-            context: context,
-            initialDate: DateTime.now(),
-            firstDate: DateTime(1900),
-            lastDate: (DateTime.now()).add(const Duration(days: 1000)));
-
-        if (newDateTime == null) {
-          return;
-        }
-        String fechaBusqueda = newDateTime.toString().substring(0, 10);
-        //fechaBusqueda = fechaBusqueda.replaceAll('-', '/');
-        _actualizadoInputFechaIngreso.text = fechaBusqueda;
-      },
-      readOnly: true,
-      style: const TextStyle(color: Colors.black),
-      maxLength: 50,
-      keyboardType: TextInputType.emailAddress,
-      decoration: const InputDecoration(
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.blue),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.blue),
-        ),
-        prefixIcon: Icon(Icons.calendar_month_outlined),
-        counterText: "",
-        hintText: 'Seleccione la fecha de expiración',
-        label: Text(
-          'Fecha expiración',
-          style: TextStyle(
-            color: Colors.black,
-          ),
-        ),
-        labelStyle: TextStyle(color: Colors.black),
-      ),
-      onChanged: (value) {},
-    );
-  }
-
-  Widget _descripcionProducto() {
-    return TextFormField(
-      initialValue: productoRequest.descripcion,
-      minLines: 3,
-      maxLines: 5,
-      keyboardType: TextInputType.text,
-      decoration: const InputDecoration(
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.blue),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.blue),
-        ),
-        prefixIcon: Icon(Icons.point_of_sale_outlined, color: Colors.blue),
-        counterText: "",
-        hintText: 'ingrese un descripción',
-        label: Text(
-          'Descripcion',
-          style: TextStyle(
-            color: Colors.black,
-          ),
-        ),
-        labelStyle: TextStyle(color: Colors.black),
-      ),
-      onSaved: (value) => productoRequest.descripcion =
-          value!, //_reporteFiltroRequest.nombre = value!,
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'Ingrese un nombre';
-        }
-        return null;
-      },
     );
   }
 }
