@@ -1,6 +1,7 @@
 import 'package:alegra_store/src/data/http/productoHttp.dart';
 import 'package:alegra_store/src/domain/requests/reporte_request.dart';
 import 'package:alegra_store/src/ui/pages/producto/producto_controller.dart';
+import 'package:alegra_store/src/ui/utilities/button_table.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
@@ -147,81 +148,42 @@ class _ListaArticuloState extends State<ListaArticulo> {
   }
 
   Widget _botonDetallesIncidente(BuildContext context, int index) {
-    return Material(
-      elevation: 5,
-      borderRadius: BorderRadius.circular(10),
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.green,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        padding: const EdgeInsets.all(3),
-        child: InkWell(
-          onTap: () {
-            Navigator.pushNamed(context, 'detalles_producto',
-                arguments: listaProductos[index]);
-          },
-          child: const Icon(
-            Icons.remove_red_eye_outlined,
-            color: Colors.white,
-          ),
-        ),
-      ),
+    return ButtonTable(
+      color: Colors.green,
+      icon: Icons.remove_red_eye_outlined,
+      onPressed: () {
+        Navigator.pushNamed(context, 'detalles_producto',
+            arguments: listaProductos[index]);
+      },
     );
   }
 
   Widget _botonEliminarIncidente(BuildContext context, int index) {
-    return Material(
-      elevation: 5,
-      borderRadius: BorderRadius.circular(10),
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.red,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        padding: const EdgeInsets.all(3),
-        child: InkWell(
-          onTap: () async {
-            bool seleccion = await alertaRetornoBoleano(context,
-                "Eliminar producto", "¿Está seguro de eliminar el producto?");
-            if (seleccion) {
-              // ignore: use_build_context_synchronously
-              await productoController.eliminarProducto(
-                  context, listaProductos[index]);
-              listaProductos.removeAt(index);
-              setState(() {});
-            }
-          },
-          child: const Icon(
-            Icons.delete,
-            color: Colors.white,
-          ),
-        ),
-      ),
+    return ButtonTable(
+      color: Colors.red,
+      icon: Icons.delete,
+      onPressed: () async {
+        bool seleccion = await alertaRetornoBoleano(context,
+            "Eliminar producto", "¿Está seguro de eliminar el producto?");
+        if (seleccion) {
+          // ignore: use_build_context_synchronously
+          await productoController.eliminarProducto(
+              context, listaProductos[index]);
+          listaProductos.removeAt(index);
+          setState(() {});
+        }
+      },
     );
   }
 
-  Material _botonActualizarIncidente(BuildContext context, int index) {
-    return Material(
-      elevation: 5,
-      borderRadius: BorderRadius.circular(10),
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.blue,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        padding: const EdgeInsets.all(3),
-        child: InkWell(
-          onTap: () {
-            Navigator.pushNamed(context, 'actualizar_producto',
-                arguments: listaProductos[index]);
-          },
-          child: const Icon(
-            Icons.edit,
-            color: Colors.white,
-          ),
-        ),
-      ),
+  Widget _botonActualizarIncidente(BuildContext context, int index) {
+    return ButtonTable(
+      color: Colors.blue,
+      icon: Icons.edit,
+      onPressed: () {
+        Navigator.pushNamed(context, 'actualizar_producto',
+            arguments: listaProductos[index]);
+      },
     );
   }
 

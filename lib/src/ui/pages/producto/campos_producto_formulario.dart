@@ -298,7 +298,7 @@ Widget fechaExpiracionText(ProductoRequest productoRequest,
       }
       String fechaBusqueda = newDateTime.toString().substring(0, 10);
       //fechaBusqueda = fechaBusqueda.replaceAll('-', '/');
-      actualizadoInputFechaIngreso!.text = fechaBusqueda;
+      actualizadoInputFechaIngreso.text = fechaBusqueda;
     },
     readOnly: true,
     style: const TextStyle(color: Colors.black),
