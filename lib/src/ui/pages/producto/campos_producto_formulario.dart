@@ -52,7 +52,7 @@ Widget codigoProducto(ProductoRequest productoRequest,
       ),
       prefixIcon: Icon(Icons.qr_code, color: Colors.blue),
       counterText: "",
-      hintText: 'ingrese un precio',
+      hintText: 'ingrese un código',
       label: Text(
         'Codigo del producto',
         style: TextStyle(
@@ -64,7 +64,7 @@ Widget codigoProducto(ProductoRequest productoRequest,
     onSaved: (value) => productoRequest.codigo = value!,
     validator: (value) {
       if (value == null || value.isEmpty) {
-        return 'Ingrese un nombre';
+        return 'Ingrese un código válido';
       }
       return null;
     },
